@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\indexController;
 use App\Http\Controllers\SinglePageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+
 
 
 /*
@@ -29,3 +31,5 @@ Route::get('order/{id}', [OrderController::class, 'store']);
 Route::get('overhundred', [OrderController::class, 'hundred']);
 
 Route::get('ooo',[OrderController::class,'ooo']);
+
+Route::get('index', [indexController::class,'index']);
