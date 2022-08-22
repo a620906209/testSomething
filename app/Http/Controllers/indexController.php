@@ -13,6 +13,7 @@ class indexController extends Controller
 }
 
 ///////////  trait/////////
+/*
 trait Tag {
 	abstract function prefix();
 	abstract function postfix();
@@ -67,7 +68,7 @@ $e = new BbcodeOpenTag;
 $e->tag('777');
 $f = new BbcodeCloseTag;
 $f->tag('888');
-
+*/
 ///////////單例///////////////////
 
 
@@ -94,7 +95,7 @@ class Man
     }
 
     public function saysomething(){
-        echo 'hlelo' . "\n";
+        echo 'hello' . "\n";
     }
     public function setsomehting($age){
         $this->age = $age;
