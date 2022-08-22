@@ -12,7 +12,111 @@ class indexController extends Controller
 
 }
 
+///////////  trait/////////
+trait Tag {
+	abstract function prefix();
+	abstract function postfix();
+	function tag($name) {
+		echo $this->prefix().$name.$this->postfix()."\n";
+	}
+    function aaa(){
+        echo "aaa";
+    }
+}
+class HtmlOpenTag {
+	use Tag;
+	function prefix() {
+		return '<'.$this->aaa();
+	}
+	function postfix() {
+		return '>';
+	}
+}
+class HtmlCloseTag {
+	use Tag;
+	function prefix() {
+		return '</';
+	}
+	function postfix() {
+		return '>';
+	}
+}
+class BbcodeOpenTag {
+	use Tag;
+	function prefix() {
+		return '[ ';
+	}
+	function postfix() {
+		return ']';
+	}
+}
+class BbcodeCloseTag {
+	use Tag;
+	function prefix() {
+		return '[ /';
+	}
+	function postfix() {
+		return ']';
+	}
+}
+$c = new HtmlOpenTag;
+$c->tag('321');
+$d = new HtmlCloseTag;
+$d->tag('br');
+$e = new BbcodeOpenTag;
+$e->tag('777');
+$f = new BbcodeCloseTag;
+$f->tag('888');
 
+///////////單例///////////////////
+
+
+trait oops{
+    public $well = 'good';
+    public function well(){
+        echo $this->well;
+    }
+}
+class Man
+{
+    use oops;
+    public $age = 0;
+    private static $instance;
+    private function __construct()
+    {
+
+    }
+    public static function getInstance(){
+        if(!self::$instance){
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function saysomething(){
+        echo 'hlelo' . "\n";
+    }
+    public function setsomehting($age){
+        $this->age = $age;
+    }
+    public function getsomething(){
+        echo $this->age . "\n";
+    }
+
+}
+$one = Man::getInstance();
+$two = Man::getInstance();
+$one->saysomething();
+$two->saysomething();
+$one->setsomehting(30);
+$two->setsomehting(40);
+$one->getsomething();
+$two->getsomething();
+
+
+
+//////////介面//////////////////////////////////////////
+/*
 interface action{
     public function run();
     public function fast();
@@ -76,6 +180,9 @@ function red(){
 // $someone->red();
 // echo $someone->fast();
 
+*/
+/////////////介面/////////////////////////////////////
+/*
 interface style
 {
     //顏色
@@ -141,5 +248,5 @@ class a
 
   $a = new a;
   $a->show(new c);
-
+*/
 
