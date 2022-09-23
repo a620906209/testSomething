@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DB5;
 use Illuminate\Http\Request;
+use App\Models\Items;
+
 
 class indexController extends Controller
 {
     public function index(){
         // return 'yes';
+        $newCollection = collect(1);
+        $ary = [1,2,3,4];
+        //  $item = Items::all()->take(2);
+         $test = $newCollection->merge($ary)->random();
+         $count = count($ary);
+        $sql = DB5::all()->first();
+        dd($newCollection->random());
+        return ($newCollection);
     }
 
 }
@@ -105,14 +116,23 @@ class Man
     }
 
 }
-$one = Man::getInstance();
-$two = Man::getInstance();
-$one->saysomething();
-$two->saysomething();
-$one->setsomehting(30);
-$two->setsomehting(40);
-$one->getsomething();
-$two->getsomething();
+// $one = Man::getInstance();
+// $two = Man::getInstance();
+// $one->saysomething();
+// $two->saysomething();
+// $one->setsomehting(30);
+// $two->setsomehting(40);
+// $one->getsomething();
+// $two->getsomething();
+
+
+
+// dd($result);
+
+
+
+/////////////////////////////////////////////////////////
+
 
 
 
