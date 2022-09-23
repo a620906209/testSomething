@@ -18,8 +18,7 @@ class indexController extends Controller
          $count = count($ary);
         $sql = DB5::all()->first();
         dd($newCollection->random());
-        // return ($newCollection);
-        return 'test';
+        return ($newCollection);
     }
 
 }
