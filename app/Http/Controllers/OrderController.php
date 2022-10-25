@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Interfaces\OrderRepositoryInterface;
-// use App\Models\Items;  ///可無
 
 class OrderController extends Controller
 {
@@ -30,6 +29,7 @@ class OrderController extends Controller
         return view('order')->with('datas',$data);
     }
     public function ooo(){
+        echo config('website.site_name');
         // return Items::where('store_id','=','1000');
     }
 }

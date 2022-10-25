@@ -5,6 +5,7 @@ use App\Http\Controllers\SinglePageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Redirect;
 
 
 
@@ -33,3 +34,7 @@ Route::get('overhundred', [OrderController::class, 'hundred']);
 Route::get('ooo',[OrderController::class,'ooo']);
 
 Route::get('index', [indexController::class,'index']);
+Route::get('showitem',[indexController::class,'showitem']);
+Route::get('test',function(){
+return  Redirect::to('https://admin.sb321.net/');
+});

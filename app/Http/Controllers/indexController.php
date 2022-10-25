@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DB5;
 use Illuminate\Http\Request;
 use App\Models\Items;
+use Illuminate\Support\Facades\Facade;
 
 
 class indexController extends Controller
@@ -14,12 +15,19 @@ class indexController extends Controller
         $newCollection = collect(1);
         $ary = [1,2,3,4];
         //  $item = Items::all()->take(2);
-         $test = $newCollection->merge($ary)->random();
-         $count = count($ary);
+        $test = $newCollection->merge($ary)->random();
+        $count = count($ary);
         $sql = DB5::all()->first();
         dd($newCollection->random());
         return ($newCollection);
     }
+
+    public static function showitem()
+    {
+        return Items::where('item_id','=','1')->get();
+    }
+
+
 
 }
 
