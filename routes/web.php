@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\View;
 
 
 /*
@@ -37,4 +37,8 @@ Route::get('index', [indexController::class,'index']);
 Route::get('showitem',[indexController::class,'showitem']);
 Route::get('test',function(){
 return  Redirect::to('https://admin.sb321.net/');
+});
+Route::get('value',function(){
+// return view('value',['value'=>'myvalue']);
+return View::first(['value','value'],['value'=>'myvalue1']);
 });

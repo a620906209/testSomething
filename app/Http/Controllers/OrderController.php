@@ -29,7 +29,7 @@ class OrderController extends Controller
         return view('order')->with('datas',$data);
     }
     public function ooo(){
-        echo config('website.site_name');
+        return config('website.site_name');
         // return Items::where('store_id','=','1000');
     }
 }
