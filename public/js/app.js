@@ -1180,6 +1180,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
@@ -9750,12 +9760,11 @@ module.exports = function () {
 
 var url = __webpack_require__(/*! url */ "./node_modules/url/url.js");
 var URL = url.URL;
-var http = false;
-var https = false;
-var Writable = false;
+var http = __webpack_require__(/*! http */ "?0187");
+var https = __webpack_require__(/*! https */ "?1596");
+var Writable = (__webpack_require__(/*! stream-browserify */ "./node_modules/stream-browserify/index.js").Writable);
 var assert = __webpack_require__(/*! assert */ "./node_modules/assert/assert.js");
 var debug = __webpack_require__(/*! ./debug */ "./node_modules/follow-redirects/debug.js");
-
 
 // Create handlers that pass events from native requests
 var events = ["abort", "aborted", "connect", "error", "socket", "timeout"];
@@ -53874,9 +53883,26 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" })
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [_vm._v("aaaa")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [_c("hr")]),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -65918,6 +65944,26 @@ Vue.compile = compileToFunctions;
 
 
 
+
+/***/ }),
+
+/***/ "?0187":
+/*!**********************!*\
+  !*** http (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?1596":
+/*!***********************!*\
+  !*** https (ignored) ***!
+  \***********************/
+/***/ (() => {
+
+/* (ignored) */
 
 /***/ }),
 
