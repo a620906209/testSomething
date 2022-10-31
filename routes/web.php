@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\PlaygroundEvent;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\SinglePageController;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,14 @@ return  Redirect::to('https://admin.sb321.net/');
 Route::get('value',function(){
 // return view('value',['value'=>'myvalue']);
 return View::first(['value','value'],['value'=>'myvalue1']);
+});
+
+
+Route::get('playground',function(){
+    event(new PlaygroundEvent());
+    return 'playground';
+});
+
+Route::get('ws',function(){
+    return view('websocket');
 });

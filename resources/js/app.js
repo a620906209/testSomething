@@ -6,7 +6,14 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
+import Vue from 'vue';
+
+const channel = Echo.channel('public.playground.1');
+
+channel.subscribed(()=>{
+    console.log('success');
+});
 
 /**
  * The following block of code may be used to automatically register your
