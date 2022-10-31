@@ -27,7 +27,15 @@ class indexController extends Controller
         return Items::where('item_id','=','1')->get();
     }
 
+    public function axiostest(){
+        // dd($message);
+        return 'yes';
+    }
 
+    public function axiospost(Request $request){
+        // dd($request);
+        return $request->message;
+    }
 
 }
 

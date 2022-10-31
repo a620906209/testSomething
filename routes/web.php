@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatMessageEvent;
 use App\Events\PlaygroundEvent;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\SinglePageController;
@@ -45,11 +46,21 @@ return View::first(['value','value'],['value'=>'myvalue1']);
 });
 
 
-Route::get('playground',function(){
-    event(new PlaygroundEvent());
-    return 'playground';
-});
+// Route::get('playground',function(){
+//     event(new PlaygroundEvent());
+//     return 'playground';
+// });
 
 Route::get('ws',function(){
     return view('websocket');
 });
+
+Route::post('/chatmessage',function(Illuminate\Http\Request $request){
+    // dd($request->message);
+    event(new ChatMessageEvent($request->message));
+
+    return null;
+});
+
+route::get('/axiostest',[indexController::class,'axiostest']);
+route::post('/axiospost',[indexController::class,'axiospost']);

@@ -11,7 +11,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Items;
 
-class PlaygroundEvent implements ShouldBroadcast
+
+class ChatMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,9 +21,12 @@ class PlaygroundEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public function __construct(string $message)
     {
         //
+        $this->message = $message;
+
     }
 
     /**
@@ -32,21 +36,18 @@ class PlaygroundEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('public.playground.1');
+        return new Channel('public.chat.1');
     }
 
     public function broadcastAs()
     {
-        return 'playground';
+        return 'chat-message';
     }
 
     public function broadcastWith()
     {
         return [
-            'heya' => 123
+            'message' => $this->message
         ];
-        // $data = Items::where('item_id','=','1')->get()->toArray;
-        // dd($data);
-        // return $data;
     }
 }

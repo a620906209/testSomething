@@ -6,13 +6,44 @@
 
 require('./bootstrap');
 
+import axios from 'axios';
 // window.Vue = require('vue');
 import Vue from 'vue';
 
-const channel = Echo.channel('public.playground.1');
+const form = document.getElementById('form');
+
+const inputMessage = document.getElementById('input-message');
+
+form.addEventListener('submit', function(event){
+    event.preventDefault();
+    const userInput = inputMessage.value;
+
+    axios.post('/chatmessage',{
+        message: userInput
+    }).catch(error =>{
+        console.log(error);
+    }).then(function (response){
+        console.log(response);
+    });
+});
+
+// axios.post('/axiospost',{
+//     message:123
+// }).then(function (response){
+//     console.log(response);
+// }).catch(error=>{
+//     console.log(error);
+// });
+
+
+
+
+const channel = Echo.channel('public.chat.1');
 
 channel.subscribed(()=>{
     console.log('success');
+}).listen('.chat-message',(event)=>{
+    console.log(event);
 });
 
 /**
