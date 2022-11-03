@@ -59,7 +59,7 @@ Route::post('/chatmessage',function(Illuminate\Http\Request $request){
     // dd($request->message);
     event(new ChatMessageEvent($request->message));
 
-    return null;
+     return null;
 });
 
 route::get('/axiostest',[indexController::class,'axiostest']);

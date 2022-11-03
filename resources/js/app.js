@@ -11,7 +11,6 @@ import axios from 'axios';
 import Vue from 'vue';
 
 const form = document.getElementById('form');
-
 const inputMessage = document.getElementById('input-message');
 
 form.addEventListener('submit', function(event){
@@ -20,10 +19,6 @@ form.addEventListener('submit', function(event){
 
     axios.post('/chatmessage',{
         message: userInput
-    }).catch(error =>{
-        console.log(error);
-    }).then(function (response){
-        console.log(response);
     });
 });
 
@@ -41,7 +36,7 @@ form.addEventListener('submit', function(event){
 const channel = Echo.channel('public.chat.1');
 
 channel.subscribed(()=>{
-    console.log('success');
+    console.log('success@@!');
 }).listen('.chat-message',(event)=>{
     console.log(event);
 });

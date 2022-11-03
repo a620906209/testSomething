@@ -21,7 +21,7 @@ class ChatMessageEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public $user;
+    public $message;
     public function __construct(string $message)
     {
         //

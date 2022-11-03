@@ -1226,10 +1226,6 @@ form.addEventListener('submit', function (event) {
   var userInput = inputMessage.value;
   axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/chatmessage', {
     message: userInput
-  })["catch"](function (error) {
-    console.log(error);
-  }).then(function (response) {
-    console.log(response);
   });
 });
 
@@ -1243,7 +1239,7 @@ form.addEventListener('submit', function (event) {
 
 var channel = Echo.channel('public.chat.1');
 channel.subscribed(function () {
-  console.log('success');
+  console.log('success@@!');
 }).listen('.chat-message', function (event) {
   console.log(event);
 });
