@@ -1,7 +1,8 @@
 <?php
 
 use App\Events\ChatMessageEvent;
-use App\Events\PlaygroundEvent;
+use App\Events\Playground;
+// use App\Events\PlaygroundEvent;
 use App\Http\Controllers\indexController;
 use App\Http\Controllers\SinglePageController;
 use Illuminate\Support\Facades\Route;
@@ -55,7 +56,7 @@ Route::get('ws',function(){
     return view('websocket');
 });
 
-Route::post('/chatmessage',function(Illuminate\Http\Request $request){
+Route::post('/chat-message',function(Illuminate\Http\Request $request){
     // dd($request->message);
     event(new ChatMessageEvent($request->message));
 
@@ -64,3 +65,9 @@ Route::post('/chatmessage',function(Illuminate\Http\Request $request){
 
 route::get('/axiostest',[indexController::class,'axiostest']);
 route::post('/axiospost',[indexController::class,'axiospost']);
+
+Route::get('/playground',function(){
+
+    event(new Playground());
+    return null;
+});

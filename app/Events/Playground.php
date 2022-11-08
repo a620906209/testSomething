@@ -9,10 +9,8 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Items;
 
-
-class ChatMessageEvent implements ShouldBroadcast
+class Playground implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,12 +19,9 @@ class ChatMessageEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public $message;
-    public function __construct(string $message)
+    public function __construct()
     {
         //
-        $this->message = $message;
-
     }
 
     /**
@@ -36,18 +31,6 @@ class ChatMessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('public.chat.1');
-    }
-
-    public function broadcastAs()
-    {
-        return 'chat-message';
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'message' => '123'
-        ];
+        return new Channel('public.playground.1');
     }
 }

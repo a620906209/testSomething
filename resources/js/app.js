@@ -6,9 +6,10 @@
 
 require('./bootstrap');
 
-import axios from 'axios';
+import { event } from 'jquery';
 // window.Vue = require('vue');
 import Vue from 'vue';
+
 
 const form = document.getElementById('form');
 const inputMessage = document.getElementById('input-message');
@@ -17,8 +18,12 @@ form.addEventListener('submit', function(event){
     event.preventDefault();
     const userInput = inputMessage.value;
 
-    axios.post('/chatmessage',{
+    axios.post('/chat-message',{
         message: userInput
+    }).then(function(response){
+        console.log(response);
+    }).catch(error=>{
+        console.log(error);
     });
 });
 
@@ -33,7 +38,7 @@ form.addEventListener('submit', function(event){
 
 
 
-const channel = Echo.channel('public.chat.1');
+const channel = Echo.channel('public.playground.1');
 
 channel.subscribed(()=>{
     console.log('success@@!');
@@ -41,13 +46,7 @@ channel.subscribed(()=>{
     console.log(event);
 });
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
