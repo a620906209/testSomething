@@ -27,7 +27,7 @@ jobs:
         
     # 安裝依賴
     - name: 安裝依賴
-      run: composer install --prefer-dist --no-progress
+      run: composer update --prefer-dist --no-progress
       
     # 執行測試
     - name: 執行測試
