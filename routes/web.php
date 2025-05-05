@@ -73,9 +73,9 @@ Route::get('/playground',function(){
 });
 
 
-
+//測試
 Route::get('/playgroundGGG',function(){
 
-    event(new Playground());
+    event(new PlaygroundGGG());
     return null;
 });
