@@ -17,7 +17,7 @@ jobs:
     - name: 設置 PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
+        php-version: '8.0.23'  # 改為您的項目兼容的版本
         extensions: mbstring, intl, pdo_mysql
         
     - name: 安裝依賴
@@ -31,14 +31,3 @@ jobs:
       
     - name: 執行測試
       run: vendor/bin/phpunit
-  
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: 部署應用
-      run: echo "部署階段"
