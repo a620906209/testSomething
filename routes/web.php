@@ -71,3 +71,11 @@ Route::get('/playground',function(){
     event(new Playground());
     return null;
 });
+
+
+
+Route::get('/playgroundGGG',function(){
+
+    event(new Playground());
+    return null;
+});
