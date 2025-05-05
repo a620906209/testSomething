@@ -1,58 +1,44 @@
-name: Deploy PHP Project
+name: PHP CI/CD
 
-# 觸發條件
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  # 允許手動觸發工作流程
   workflow_dispatch:
 
 jobs:
-  # 建置和測試
   build:
     runs-on: ubuntu-latest
     
     steps:
-    # 檢出代碼
     - uses: actions/checkout@v3
     
-    # 設置 PHP 環境
     - name: 設置 PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4.3'
+        php-version: '8.2'
         extensions: mbstring, intl, pdo_mysql
         
-    # 安裝依賴
     - name: 安裝依賴
-      run: composer update --prefer-dist --no-progress
+      run: composer install --prefer-dist --no-progress
       
-    # 執行測試
+    - name: 複製環境設定
+      run: cp .env.example .env
+      
+    - name: 生成應用程式金鑰
+      run: php artisan key:generate
+      
     - name: 執行測試
       run: vendor/bin/phpunit
   
-  # 部署到伺服器
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     
     steps:
-    # 檢出代碼
     - uses: actions/checkout@v3
     
-    # 使用 SSH 部署到伺服器
-    - name: 部署到伺服器
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd /var/www/html/your-project
-          git pull origin main
-          composer install --no-dev --optimize-autoloader
-          php artisan migrate --force
-          php artisan config:cache
-          php artisan route:cache
+    - name: 部署應用
+      run: echo "部署階段"
