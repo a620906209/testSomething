@@ -29,7 +29,8 @@ jobs:
     - name: 生成應用程式金鑰
       run: php artisan key:generate
       
-    - name: 執行測
+    - name: 執行測試
+      run: vendor/bin/phpunit
 
   deploy:
     needs: build
