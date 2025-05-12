@@ -29,5 +29,63 @@ jobs:
     - name: 生成應用程式金鑰
       run: php artisan key:generate
       
-    - name: 執行測試
+    - name: 執行測
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    
+    steps:
+    - uses: actions/checkout@v3
+      
+    # 方法1: 使用SSH部署到VPS/專用伺服器
+    - name: 設置SSH金鑰
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: 部署到伺服器
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.REMOTE_DIR }} && \
+        git pull origin master && \
+        composer install --no-dev --optimize-autoloader && \
+        php artisan migrate --force && \
+        php artisan config:cache && \
+        php artisan route:cache && \
+        php artisan view:cache"
+        
+    # 方法2: 使用FTP部署到共享主機 (取消註釋以使用)
+    # - name: 設置PHP
+    #   uses: shivammathur/setup-php@v2
+    #   with:
+    #     php-version: '8.0.23'
+    #     extensions: mbstring, intl, pdo_mysql
+    #     
+    # - name: 安裝依賴
+    #   run: composer install --no-dev --optimize-autoloader
+    #     
+    # - name: 準備應用程式
+    #   run: |
+    #     cp .env.example .env
+    #     php artisan key:generate
+    #     php artisan config:cache
+    #     php artisan route:cache
+    #     php artisan view:cache
+    #     
+    # - name: FTP部署
+    #   uses: SamKirkland/FTP-Deploy-Action@4.3.0
+    #   with:
+    #     server: ${{ secrets.FTP_SERVER }}
+    #     username: ${{ secrets.FTP_USERNAME }}
+    #     password: ${{ secrets.FTP_PASSWORD }}
+    #     local-dir: ./
+    #     server-dir: ${{ secrets.FTP_DIRECTORY }}/
+    #     exclude: |
+    #       **/.git*
+    #       **/.git*/**
+    #       **/node_modules/**
+    #       **/vendor/**
+    #       .env
+    #       .env.example試
       run: vendor/bin/phpunit

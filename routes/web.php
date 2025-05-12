@@ -73,7 +73,7 @@ Route::get('/playground',function(){
 });
 
 
-//測試
+//測試部屬
 Route::get('/playgroundGG',function(){
 
     event(new PlaygroundGGG());
