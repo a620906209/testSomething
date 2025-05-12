@@ -40,8 +40,37 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       
+    # 除錯步驟: 先測試SSH連接
+    - name: 測試SSH連接
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          echo "成功連接到伺服器"
+          whoami
+          pwd
+          ls -la
+          if [ -d "${{ secrets.REMOTE_DIR }}" ]; then 
+            echo "${{ secrets.REMOTE_DIR }} 目錄存在"
+            cd ${{ secrets.REMOTE_DIR }}
+            echo "目錄內容:"
+            ls -la
+            if [ -d ".git" ]; then
+              echo "Git 儲存庫存在"
+              git remote -v
+            else
+              echo "Git 儲存庫不存在"
+            fi
+          else
+            echo "${{ secrets.REMOTE_DIR }} 目錄不存在"
+          fi
+
     # 方法1: 使用SSH部署到VPS/專用伺服器
     - name: 使用SSH部署到伺服器
+      if: success()
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -57,36 +86,4 @@ jobs:
           php artisan route:cache
           php artisan view:cache
         
-    # 方法2: 使用FTP部署到共享主機 (取消註釋以使用)
-    # - name: 設置PHP
-    #   uses: shivammathur/setup-php@v2
-    #   with:
-    #     php-version: '8.0.23'
-    #     extensions: mbstring, intl, pdo_mysql
-    #     
-    # - name: 安裝依賴
-    #   run: composer install --no-dev --optimize-autoloader
-    #     
-    # - name: 準備應用程式
-    #   run: |
-    #     cp .env.example .env
-    #     php artisan key:generate
-    #     php artisan config:cache
-    #     php artisan route:cache
-    #     php artisan view:cache
-    #     
-    # - name: FTP部署
-    #   uses: SamKirkland/FTP-Deploy-Action@4.3.0
-    #   with:
-    #     server: ${{ secrets.FTP_SERVER }}
-    #     username: ${{ secrets.FTP_USERNAME }}
-    #     password: ${{ secrets.FTP_PASSWORD }}
-    #     local-dir: ./
-    #     server-dir: ${{ secrets.FTP_DIRECTORY }}/
-    #     exclude: |
-    #       **/.git*
-    #       **/.git*/**
-    #       **/node_modules/**
-    #       **/vendor/**
-    #       .env
-    #       .env.example
+    # 方法2已移除: 使用FTP部署到共享主機
