@@ -88,5 +88,4 @@ jobs:
     #       **/node_modules/**
     #       **/vendor/**
     #       .env
-    #       .env.example試
-      run: vendor/bin/phpunit
+    #       .env.example
