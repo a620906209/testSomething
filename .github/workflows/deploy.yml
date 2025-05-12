@@ -63,6 +63,24 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
         script: |
+          # 安裝PHP和相關套件
+          if ! command -v php &> /dev/null; then
+            echo "安裝PHP..."
+            apt-get update
+            apt-get install -y software-properties-common
+            add-apt-repository -y ppa:ondrej/php
+            apt-get update
+            apt-get install -y php8.0 php8.0-cli php8.0-common php8.0-mbstring php8.0-xml php8.0-zip php8.0-mysql php8.0-curl unzip
+          fi
+          
+          # 安裝Composer
+          if ! command -v composer &> /dev/null; then
+            echo "安裝Composer..."
+            curl -sS https://getcomposer.org/installer | php
+            mv composer.phar /usr/local/bin/composer
+            chmod +x /usr/local/bin/composer
+          fi
+          
           # 檢查和創建目錄
           if [ ! -d "${{ secrets.REMOTE_DIR }}" ]; then
             echo "創建目錄 ${{ secrets.REMOTE_DIR }}"
@@ -81,17 +99,25 @@ jobs:
           # 更新代碼和部署
           git fetch --all
           git reset --hard origin/master
+          
+          echo "安裝PHP依賴..."
           composer install --no-dev --optimize-autoloader
           
           # 如果.env文件不存在則創建
           if [ ! -f ".env" ]; then
+            echo "創建環境文件..."
             cp .env.example .env
             php artisan key:generate
           fi
           
+          echo "執行資料庫適配..."
           php artisan migrate --force
+          
+          echo "優化快取..."
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
+          
+          echo "部署完成!"
         
     # 方法2已移除: 使用FTP部署到共享主機
