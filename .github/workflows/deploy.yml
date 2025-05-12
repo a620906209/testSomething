@@ -40,22 +40,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       
-    # 新的除錯方法: 使用ssh-keyscan檢查
-    - name: 驗證對伺服器的訪問
-      run: ssh-keyscan -H ${{ secrets.SSH_HOST }}
-      
-    # 嘗試使用另一個動作的SSH連接方式
-    - name: 測試SSH連接 - 另一個方法
-      uses: fifsky/ssh-action@master
+    # 使用密碼驗證代替SSH金鑰
+    - name: 使用密碼進行SSH連接
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
-        user: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        pass: ${{ secrets.SSH_PASSPHRASE }}
-        command: |
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
           echo "測試連接"
           whoami
           pwd
+          echo "目前目錄:"
+          ls -la
 
     # 方法1: 使用SSH部署到VPS/專用伺服器
     - name: 使用SSH部署到伺服器
