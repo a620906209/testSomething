@@ -54,19 +54,41 @@ jobs:
           echo "目前目錄:"
           ls -la
 
-    # 方法1: 使用SSH部署到VPS/專用伺服器
-    - name: 使用SSH部署到伺服器
+    # 部署到伺服器 - 使用密碼驗證
+    - name: 使用密碼部署到伺服器
       if: success()
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.SSH_PASSWORD }}
         script: |
+          # 檢查和創建目錄
+          if [ ! -d "${{ secrets.REMOTE_DIR }}" ]; then
+            echo "創建目錄 ${{ secrets.REMOTE_DIR }}"
+            mkdir -p ${{ secrets.REMOTE_DIR }}
+          fi
+          
           cd ${{ secrets.REMOTE_DIR }}
-          git pull origin master
+          
+          # 檢查是否為git儲存庫
+          if [ ! -d ".git" ]; then
+            echo "初始化git儲存庫"
+            git init
+            git remote add origin https://github.com/a620906209/testSomething.git
+          fi
+          
+          # 更新代碼和部署
+          git fetch --all
+          git reset --hard origin/master
           composer install --no-dev --optimize-autoloader
+          
+          # 如果.env文件不存在則創建
+          if [ ! -f ".env" ]; then
+            cp .env.example .env
+            php artisan key:generate
+          fi
+          
           php artisan migrate --force
           php artisan config:cache
           php artisan route:cache
